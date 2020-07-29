@@ -1,7 +1,8 @@
 import { openStorage } from "../commons";
-//window.indexedDB.open("MyTestDatabase", 3);
+
 async function create(name, version) {
-  return openStorage(name, version);
+  const db = await openStorage(name, version);
+  return { db, name, version };
 }
 
 export default create;
