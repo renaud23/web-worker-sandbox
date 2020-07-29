@@ -13,14 +13,14 @@ async function fetchData() {
   });
 }
 
-async function loadTask(data, idbName, process = () => null) {
+async function loadTask(data, idbName, fields, process = () => null) {
   if (idbName) {
     const bulkTask = createWorker(process);
-    bulkTask(idbName, data);
+    bulkTask(idbName, fields, data);
   }
 }
 
-function BulkTaskProgress({ idbName, data = [] }) {
+function BulkTaskProgress({ idbName, data = [], fields = [] }) {
   const ref = useRef();
   const [statusWidth, setStatusWidth] = useState(0);
   const [nbToLoad] = useState(data.length);
@@ -53,9 +53,9 @@ function BulkTaskProgress({ idbName, data = [] }) {
           default:
         }
       }
-      loadTask(data, idbName, callback);
+      loadTask(data, idbName, fields, callback);
     },
-    [data, idbName]
+    [data, idbName, fields]
   );
 
   const percent = nbTreated / (nbToLoad + 1);
@@ -69,7 +69,7 @@ function BulkTaskProgress({ idbName, data = [] }) {
   );
 }
 
-function DataToolbar({ db, idbName }) {
+function DataToolbar({ store, idbName, fields }) {
   const [load, setLoad] = useState(false);
   const [communes, setCommunes] = useState([]);
 
@@ -87,13 +87,13 @@ function DataToolbar({ db, idbName }) {
     function (e) {
       e.stopPropagation();
       async function clear() {
-        await clearStore(db);
+        await clearStore(store);
         setLoad(false);
         setCommunes([]);
       }
       clear();
     },
-    [db]
+    [store]
   );
   return (
     <div className="data-toolbar">
@@ -103,7 +103,9 @@ function DataToolbar({ db, idbName }) {
       <button className="button" onClick={handleClear}>
         Clear
       </button>
-      {load ? <BulkTaskProgress idbName={idbName} data={communes} /> : null}
+      {load ? (
+        <BulkTaskProgress idbName={idbName} data={communes} fields={fields} />
+      ) : null}
     </div>
   );
 }

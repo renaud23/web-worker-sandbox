@@ -1,28 +1,39 @@
-import React, { useState } from "react";
-import Worker from "../worker/test.worker.js";
+import React, { useState, useCallback, useEffect } from "react";
+import { searchByPrefix } from "store-index";
 
-const worker = new Worker();
-
-worker.postMessage({ a: 1 });
-
-worker.addEventListener("message", function (e) {
-  console.log(e.data);
-});
-
-function Suggester({ value: valueFP }) {
+function Suggester({ store }) {
   const [value, setValue] = useState("");
 
+  const handleOnchange = useCallback(function (e) {
+    e.stopPropagation();
+    setValue(e.target.value);
+  }, []);
+  //   searchByPrefix(store)
+
+  const searching = useCallback(searchByPrefix(store), [store]);
+
+  useEffect(
+    function () {
+      if (value.trim().length) {
+        async function search() {
+          const proposal = await searching(value, 10);
+          console.log(proposal);
+        }
+        search();
+      }
+    },
+    [value, searching]
+  );
+
   return (
-    <div>
-      <label htmlFor="choix_bieres">Indiquez votre bière préférée :</label>
-      <input list="bieres" type="text" id="choix_bieres" value={value} />
-      <datalist id="bieres"></datalist>
+    <div className="renaud-suggester-container">
+      <div className="renaud-suggester">
+        <div className="renaud-suggester-input">
+          <input type="text" onChange={handleOnchange} value={value} />
+        </div>
+      </div>
     </div>
   );
 }
-
-Suggester.defaultProps = {
-  value: "",
-};
 
 export default Suggester;

@@ -1,1 +1,1 @@
-export { default } from "./suggester";
+export { default as Suggester } from "./suggester";
