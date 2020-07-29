@@ -1,14 +1,48 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { searchByPrefix } from "store-index";
 
+function Option({ suggestion }) {
+  const { com, libelle } = suggestion;
+  return (
+    <li>
+      <span>{com}</span>
+      <span>{libelle}</span>
+    </li>
+  );
+}
+
+function Panel({ suggestions }) {
+  const length = suggestions.length;
+  if (!length) {
+    return null;
+  }
+  return (
+    <div className="renaud-suggester-panel">
+      <ul>
+        {suggestions.map(function (s, i) {
+          return <Option suggestion={s} key={i} />;
+        })}
+      </ul>
+    </div>
+  );
+}
+
+function Input({ value, handleOnchange }) {
+  return (
+    <div className="renaud-suggester-input">
+      <input type="text" onChange={handleOnchange} value={value} />
+    </div>
+  );
+}
+
 function Suggester({ store }) {
   const [value, setValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   const handleOnchange = useCallback(function (e) {
     e.stopPropagation();
     setValue(e.target.value);
   }, []);
-  //   searchByPrefix(store)
 
   const searching = useCallback(searchByPrefix(store), [store]);
 
@@ -16,10 +50,11 @@ function Suggester({ store }) {
     function () {
       if (value.trim().length) {
         async function search() {
-          const proposal = await searching(value, 10);
-          console.log(proposal);
+          setSuggestions(await searching(value, 15));
         }
         search();
+      } else {
+        setSuggestions([]);
       }
     },
     [value, searching]
@@ -28,9 +63,8 @@ function Suggester({ store }) {
   return (
     <div className="renaud-suggester-container">
       <div className="renaud-suggester">
-        <div className="renaud-suggester-input">
-          <input type="text" onChange={handleOnchange} value={value} />
-        </div>
+        <Input value={value} handleOnchange={handleOnchange} />
+        <Panel suggestions={suggestions} />
       </div>
     </div>
   );
