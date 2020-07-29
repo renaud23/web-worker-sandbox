@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "web-worker-sandbox",
+  "devDependencies": {},
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-scripts",
+      "**/react-scripts/**"
+    ]
+  }
+}

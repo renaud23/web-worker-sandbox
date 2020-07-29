@@ -1,0 +1,13 @@
+package-lock.json
+
+# A handy place to put stuff that git should ignore:
+/coverage
+/ignore/
+node_modules/
+jam/
+* *
+
+.git-ref
+npm-debug.log
+deps/
+dist
