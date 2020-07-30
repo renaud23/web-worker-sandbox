@@ -1,7 +1,10 @@
 import React from "react";
 import OptionContainer from "./suggester-option-container";
+import { useSuggesterState } from "./component-state";
 
-function Panel({ suggestions, optionComponent: Component }) {
+function Panel({ optionComponent: Component }) {
+  const [state] = useSuggesterState();
+  const { suggestions } = state;
   const length = suggestions.length;
   if (!length) {
     return null;

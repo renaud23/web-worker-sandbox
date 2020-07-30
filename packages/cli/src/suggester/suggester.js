@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useReducer } from "react";
+import React, { useCallback, useEffect, useReducer, useRef } from "react";
 import SuggesterContainer from "./suggester-container";
 import Input from "./suggester-input";
 import Panel from "./suggester-panel";
@@ -8,6 +8,8 @@ import {
   reducer,
   initialState,
   SuggesterStateContext,
+  onRefreshSuggestions,
+  onBlurSuggester,
 } from "./component-state";
 import "./renaud-suggester.scss";
 
@@ -20,9 +22,9 @@ async function refreshSuggestion(prefix, searching) {
 }
 
 function Suggester({ store, optionComponent }) {
+  const containerEl = useRef();
   const [state, dispatch] = useReducer(reducer, initialState);
   const { inputValue } = state;
-  const [suggestions, setSuggestions] = useState([]);
 
   const searching = useCallback(searchByPrefix(store), [store]);
 
@@ -30,28 +32,35 @@ function Suggester({ store, optionComponent }) {
     function () {
       async function refresh() {
         const suggestions = await refreshSuggestion(inputValue, searching);
-        setSuggestions(suggestions);
+        dispatch(onRefreshSuggestions(suggestions));
       }
       refresh();
     },
     [inputValue, searching]
   );
 
-  useEffect(function () {
-    function handleClickBody(e) {
-      //   console.log("click", e.target);
-    }
-    document.addEventListener("click", handleClickBody);
-    return function () {
-      document.removeEventListener("click", handleClickBody);
-    };
-  }, []);
+  useEffect(
+    function () {
+      function handleClickBody(e) {
+        if (containerEl.current) {
+          if (!containerEl.current.contains(e.target)) {
+            dispatch(onBlurSuggester());
+          }
+        }
+      }
+      document.addEventListener("click", handleClickBody);
+      return function () {
+        document.removeEventListener("click", handleClickBody);
+      };
+    },
+    [containerEl]
+  );
 
   return (
     <SuggesterStateContext.Provider value={{ state, dispatch }}>
-      <SuggesterContainer>
+      <SuggesterContainer ref={containerEl}>
         <Input />
-        <Panel suggestions={suggestions} optionComponent={optionComponent} />
+        <Panel optionComponent={optionComponent} />
       </SuggesterContainer>
     </SuggesterStateContext.Provider>
   );

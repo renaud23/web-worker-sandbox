@@ -8,6 +8,11 @@ function Input() {
     <div className="renaud-suggester-input-container">
       <input
         type="text"
+        autoComplete="list"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck="false"
+        tabIndex="-1"
         onChange={function (e) {
           e.preventDefault();
           e.stopPropagation();

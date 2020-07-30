@@ -4,4 +4,11 @@ export const onInputChange = (value) => ({
   payload: { value },
 });
 
-export const ACTION_CODES = { ON_INPUT_CHANGE };
+export const ON_REFRESH_SUGGESTIONS = "renaud-suggester/onRefreshSuggestions";
+export const onRefreshSuggestions = (suggestions) => ({
+  type: ON_REFRESH_SUGGESTIONS,
+  payload: { suggestions },
+});
+
+export const ON_BLUR_SUGGESTER = "renaud-suggester/onBlurSuggester";
+export const onBlurSuggester = () => ({ type: ON_BLUR_SUGGESTER });
