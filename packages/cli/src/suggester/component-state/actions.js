@@ -26,6 +26,9 @@ export const onArrowUpInput = () => ({ type: ON_ARROW_UP_INPUT });
 export const ON_ARROW_DOWN_INPUT = "renaud-suggester/onArrowDownInput";
 export const onArrowDownInput = () => ({ type: ON_ARROW_DOWN_INPUT });
 
+export const ON_ENTER_INPUT = "renaud-suggester/onEnterInput";
+export const onEnterInput = () => ({ type: ON_ENTER_INPUT });
+
 /**
  *
  */

@@ -21,20 +21,25 @@ async function refreshSuggestion(prefix, searching) {
   }
 }
 
-function Suggester({ store, optionComponent, displayPath }) {
+function Suggester({ store, optionComponent, displayPath, onSelect }) {
   const containerEl = useRef();
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    onSelect,
+    displayPath,
+  });
   const { inputValue } = state;
 
   const searching = useCallback(searchByPrefix(store), [store]);
 
   useEffect(
     function () {
-      async function refresh() {
+      async function doRefresh() {
         const suggestions = await refreshSuggestion(inputValue, searching);
         dispatch(onRefreshSuggestions(suggestions));
       }
-      refresh();
+
+      doRefresh();
     },
     [inputValue, searching]
   );
@@ -57,9 +62,7 @@ function Suggester({ store, optionComponent, displayPath }) {
   );
 
   return (
-    <SuggesterStateContext.Provider
-      value={{ state: { ...state, displayPath }, dispatch }}
-    >
+    <SuggesterStateContext.Provider value={{ state, dispatch }}>
       <SuggesterContainer ref={containerEl}>
         <Input />
         <Panel optionComponent={optionComponent} />

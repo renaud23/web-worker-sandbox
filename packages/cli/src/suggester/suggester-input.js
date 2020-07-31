@@ -8,7 +8,9 @@ import {
   onArrowDownInput,
   onArrowUpInput,
   onBlurSuggester,
+  onEnterInput,
 } from "./component-state";
+import onSelect from "./on-select";
 
 const KEY_BIND = {
   arrowUp: "ArrowUp",
@@ -20,7 +22,7 @@ const KEY_BIND = {
 
 function Input() {
   const [state, dispatch] = useSuggesterState();
-  const { focused, value } = state;
+  const { focused, inputValue } = state;
 
   function handleKeyPressed(e) {
     e.stopPropagation();
@@ -33,6 +35,10 @@ function Input() {
       case KEY_BIND.arrowDown:
         e.preventDefault();
         dispatch(onArrowDownInput());
+        break;
+      case KEY_BIND.enter:
+        onSelect(state);
+        dispatch(onEnterInput());
         break;
       default:
     }
@@ -54,7 +60,7 @@ function Input() {
           e.stopPropagation();
           dispatch(onInputChange(e.target.value));
         }}
-        value={value}
+        value={inputValue}
         className="renaud-suggester-input"
         onFocus={function (e) {
           e.preventDefault();

@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   activeIndex: -1,
   displayActiveIndex: false,
   onSelect: () => null,
+  displayOnRefresh: true,
 };
 
 export default INITIAL_STATE;

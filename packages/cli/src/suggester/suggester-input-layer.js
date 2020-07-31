@@ -1,15 +1,6 @@
 import React from "react";
 import { useSuggesterState, onMouseEnterInputLayer } from "./component-state";
-
-function getValue(state) {
-  const { activeIndex, suggestions, displayPath } = state;
-  const item = suggestions[activeIndex];
-  if (displayPath in item) {
-    return item[displayPath];
-  }
-  const { id } = item;
-  return id;
-}
+import getValue from "./get-display-value";
 
 function InputLayer() {
   const [state, dispatch] = useSuggesterState();
