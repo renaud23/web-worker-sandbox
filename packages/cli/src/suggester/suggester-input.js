@@ -9,6 +9,7 @@ import {
   onArrowUpInput,
   onEnterInput,
   onBlurInput,
+  onBlurSuggester,
 } from "./component-state";
 import SuggesterButtonDelete from "./suggester-button-delete";
 import onSelect from "./on-select";
@@ -18,6 +19,7 @@ const KEY_BIND = {
   arrowDown: "ArrowDown",
   home: "Home",
   end: "End",
+  tab: "Tab",
   enter: "Enter",
 };
 
@@ -40,6 +42,9 @@ function Input() {
       case KEY_BIND.enter:
         onSelect(state);
         dispatch(onEnterInput());
+        break;
+      case KEY_BIND.tab:
+        dispatch(onBlurSuggester());
         break;
       default:
     }
