@@ -29,6 +29,9 @@ export const onArrowDownInput = () => ({ type: ON_ARROW_DOWN_INPUT });
 export const ON_ENTER_INPUT = "renaud-suggester/onEnterInput";
 export const onEnterInput = () => ({ type: ON_ENTER_INPUT });
 
+export const ON_BLUR_INPUT = "renaud-suggester/onBlurInput";
+export const onBlurInput = () => ({ type: ON_BLUR_INPUT });
+
 /**
  *
  */
@@ -52,3 +55,9 @@ export const ON_MOUSE_ENTER_INPUT_LAYER =
 export const onMouseEnterInputLayer = () => ({
   type: ON_MOUSE_ENTER_INPUT_LAYER,
 });
+
+/**
+ *
+ */
+export const ON_CLICK_DELETE_BUTTON = "renaud-suggester/onClickDeleteButton";
+export const onClickDeleteButton = () => ({ type: ON_CLICK_DELETE_BUTTON });

@@ -1,3 +1,12 @@
+@mixin fontPolicy {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+}
+
+$searchBarBackgroundColor: ivory;
+$searchBarColor: black;
+
+
 .renaud-suggester-container{
     position: relative; 
     width: fit-content;
@@ -7,7 +16,8 @@
             position: absolute;
             display: inline-block;
             width: max-content; 
-            
+            margin-top: 2px;
+
             .renaud-suggester-panel{
                 margin: 0;
                 padding: 0;
@@ -23,27 +33,65 @@
         }
 
 
-        .renaud-suggester-input-container{
+        .renaud-suggester-input-container{            
             position: relative;
-            border: solid black 1px;
-            border-radius: 2px;            
+            background-color: $searchBarBackgroundColor;
+            border-radius: 15px;   
+            padding:0 15px 0 15px; 
+            border: solid lightblue  2px;
+            
+            height: 30px;
 
             &.focused{
-                outline: solid red 1px;
+                border: solid  royalblue 2px;
             }
 
             .renaud-suggester-input{
                 outline: none;
                 border: none;
+                height: calc(100% - 2px);
+                background-color: $searchBarBackgroundColor;
+                color: $searchBarColor;
+
+
+                @include fontPolicy();
             }
 
             .renaud-suggester-input-layer{
-                position: absolute;
-                left: 1;
-                top: 0;
-                background-color: lightblue;
-                width: calc(100% - 2px);
+                position: absolute;                 
+                top: 0;               
+                background-color: $searchBarBackgroundColor;
+                width: calc(100% - 32px);
                 padding-left: 2px;
+                padding-top: 8px;
+                height: calc(100% - 8px);
+                color: $searchBarColor;
+                          
+                @include fontPolicy();
+            }
+
+
+            .renaud-suggester-button-delete {
+                position: absolute;
+                display: block;
+                width: 16px;
+                height: 17px;
+                background-color: slategrey;
+                border-radius: 50%;
+                right: 7px;
+                top: 7px;
+                text-align: center;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: lightgrey;
+                   
+                }
+
+                &:focus {
+                    outline: none;
+                    box-shadow: 0em 0em 0.1em 0.1em goldenrod;
+                }
             }
         }
 

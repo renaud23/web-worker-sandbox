@@ -8,7 +8,9 @@ import {
   onArrowDownInput,
   onArrowUpInput,
   onEnterInput,
+  onBlurInput,
 } from "./component-state";
+import SuggesterButtonDelete from "./suggester-button-delete";
 import onSelect from "./on-select";
 
 const KEY_BIND = {
@@ -68,11 +70,12 @@ function Input() {
         onBlur={function (e) {
           e.preventDefault();
           e.stopPropagation();
-          // dispatch(onBlurSuggester());
+          dispatch(onBlurInput());
         }}
         onKeyDown={handleKeyPressed}
       />
       <InputLayer />
+      <SuggesterButtonDelete />
     </div>
   );
 }

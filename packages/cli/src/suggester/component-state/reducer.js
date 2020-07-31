@@ -46,6 +46,13 @@ function reduceOnBlurSuggester(state) {
   };
 }
 
+function reduceOnBlurInput(state) {
+  return {
+    ...state,
+    focused: false,
+  };
+}
+
 function reduceOnFocusedSuggester(state) {
   return {
     ...state,
@@ -89,6 +96,20 @@ function reduceOnMouseEnterInputLayer(state) {
   return { ...state, displayActiveIndex: false, activeIndex: -1 };
 }
 
+function reduceOnCLickDeleteButton(state) {
+  return {
+    ...state,
+    displayIndex: -1,
+    displayPanel: false,
+    suggestions: [],
+    activeInde: -1,
+    displayActiveIndex: false,
+    selectedItem: undefined,
+    inputValue: "",
+    displayOnRefresh: false,
+  };
+}
+
 function reduceOnEnterInput(state) {
   const { activeIndex, suggestions } = state;
   if (activeIndex >= 0) {
@@ -100,6 +121,7 @@ function reduceOnEnterInput(state) {
       displayActiveIndex: false,
       selectedItem: suggestions[activeIndex],
       inputValue,
+      focused: true,
       displayOnRefresh: false,
     };
   }
@@ -133,6 +155,10 @@ function reducer(state, action) {
       return reduceOnEnterInput(state);
     case ACTIONS.ON_CLICK_OPTION:
       return reduceOnClickOption(state);
+    case ACTIONS.ON_CLICK_DELETE_BUTTON:
+      return reduceOnCLickDeleteButton(state);
+    case ACTIONS.ON_BLUR_INPUT:
+      return reduceOnBlurInput(state);
     default:
       return state;
   }
