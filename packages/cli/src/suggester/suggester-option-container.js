@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useCallback } from "react";
+import classnames from "classnames";
+import { useSuggesterState, onMouseEnterOption } from "./component-state";
 
-function OptionContainer({ children, onSelect, item }) {
+function OptionContainer({ children, item, index }) {
+  const [state, dispatch] = useSuggesterState();
+  const { onSelect, activeIndex } = state;
+  const active = index === activeIndex;
+
+  const handleMouseEnter = useCallback(
+    function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      dispatch(onMouseEnterOption(index));
+    },
+    [index, dispatch]
+  );
+
   return (
     <li
-      className="renaud-suggestion-option"
-      index="0"
+      className={classnames("renaud-suggestion-option", { active })}
       onClick={function (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -12,6 +26,7 @@ function OptionContainer({ children, onSelect, item }) {
           onSelect(item);
         }
       }}
+      onMouseEnter={handleMouseEnter}
     >
       {children}
     </li>

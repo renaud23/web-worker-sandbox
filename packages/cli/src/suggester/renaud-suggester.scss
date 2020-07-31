@@ -5,6 +5,7 @@
         .renaud-suggester-panel-container{
             position: absolute;
             display: inline-block;
+            width: max-content;
            
 
             .renaud-suggester-panel{
@@ -24,8 +25,11 @@
 
 
         .renaud-suggester-input-container{
+            &.focused{
+                outline: solid red 1px;
+            }
             .renaud-suggester-input{
-
+                outline: none;
             }
         }
 

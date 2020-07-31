@@ -2,25 +2,45 @@ import React from "react";
 import OptionContainer from "./suggester-option-container";
 import { useSuggesterState } from "./component-state";
 
-function Panel({ optionComponent: Component }) {
-  const [state] = useSuggesterState();
-  const { suggestions } = state;
-  const length = suggestions.length;
-  if (!length) {
-    return null;
-  }
-  return (
-    <div className="renaud-suggester-panel-container transition">
+function PanelContent({
+  suggestions,
+  optionComponent: Component,
+  display,
+  activeIndex,
+}) {
+  if (display) {
+    return (
       <ul className="renaud-suggester-panel">
-        {suggestions.map(function (s) {
+        {suggestions.map(function (s, i) {
           const { id } = s;
           return (
-            <OptionContainer key={id} item={s}>
+            <OptionContainer key={id} item={s} index={i}>
               <Component suggestion={s} />
             </OptionContainer>
           );
         })}
       </ul>
+    );
+  }
+  return null;
+}
+
+function Panel({ optionComponent }) {
+  const [state] = useSuggesterState();
+  const { suggestions, displayPanel, activeIndex } = state;
+  const length = suggestions.length;
+  if (!length) {
+    return null;
+  }
+
+  return (
+    <div className="renaud-suggester-panel-container transition">
+      <PanelContent
+        suggestions={suggestions}
+        optionComponent={optionComponent}
+        display={displayPanel}
+        activeIndex={activeIndex}
+      />
     </div>
   );
 }

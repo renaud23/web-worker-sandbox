@@ -48,9 +48,9 @@ function Suggester({ store, optionComponent }) {
           }
         }
       }
-      document.addEventListener("click", handleClickBody);
+      document.body.addEventListener("click", handleClickBody);
       return function () {
-        document.removeEventListener("click", handleClickBody);
+        document.body.removeEventListener("click", handleClickBody);
       };
     },
     [containerEl]

@@ -3,9 +3,20 @@ import ReactDOM from "react-dom";
 import DataToolbar from "./data-toolbar";
 import { createStore } from "store-index";
 import { Suggester } from "./suggester";
+import "./custom-cog-option.scss";
 
 const IDB_NAME = "TEST/COG";
 const fields = [{ name: "libelle" }, { name: "com" }, { name: "nccenr" }];
+
+function CustomCOGOption({ suggestion }) {
+  const { com, libelle } = suggestion;
+  return (
+    <div className="custom-cog-option">
+      <span className="com">{com}</span>
+      <span className="libelle">{libelle}</span>
+    </div>
+  );
+}
 
 function App() {
   const [store, setStore] = useState(undefined);
@@ -21,7 +32,7 @@ function App() {
   return (
     <div className="application">
       <DataToolbar store={store} idbName={IDB_NAME} fields={fields} />
-      <Suggester store={store} />
+      <Suggester store={store} optionComponent={CustomCOGOption} />
       <p>
         Contrary to popular belief, Lorem Ipsum is not simply random text. It
         has roots in a piece of classical Latin literature from 45 BC, making it

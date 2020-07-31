@@ -1,18 +1,51 @@
 import React from "react";
-import { useSuggesterState, onInputChange } from "./component-state";
+import classnames from "classnames";
+import {
+  useSuggesterState,
+  onInputChange,
+  onFocusedSuggester,
+  onArrowDownInput,
+  onArrowUpInput,
+  onBlurSuggester,
+} from "./component-state";
+
+const KEY_BIND = {
+  arrowUp: "ArrowUp",
+  arrowDown: "ArrowDown",
+  home: "Home",
+  end: "End",
+  enter: "Enter",
+};
 
 function Input() {
   const [state, dispatch] = useSuggesterState();
-  const { value } = state;
+  const { value, focused } = state;
+
+  function handleKeyPressed(e) {
+    e.stopPropagation();
+    const { key } = e;
+    switch (key) {
+      case KEY_BIND.arrowUp:
+        dispatch(onArrowUpInput());
+        break;
+      case KEY_BIND.arrowDown:
+        dispatch(onArrowDownInput());
+        break;
+      default:
+    }
+  }
+
   return (
-    <div className="renaud-suggester-input-container">
+    <div
+      className={classnames("renaud-suggester-input-container", { focused })}
+      tabIndex="-1"
+    >
       <input
         type="text"
         autoComplete="list"
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck="false"
-        tabIndex="-1"
         onChange={function (e) {
           e.preventDefault();
           e.stopPropagation();
@@ -20,6 +53,17 @@ function Input() {
         }}
         value={value}
         className="renaud-suggester-input"
+        onFocus={function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dispatch(onFocusedSuggester());
+        }}
+        onBlur={function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          dispatch(onBlurSuggester());
+        }}
+        onKeyDown={handleKeyPressed}
       />
     </div>
   );
