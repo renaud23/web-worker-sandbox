@@ -7,7 +7,6 @@ import {
   onFocusedSuggester,
   onArrowDownInput,
   onArrowUpInput,
-  onBlurSuggester,
   onEnterInput,
 } from "./component-state";
 import onSelect from "./on-select";
@@ -47,7 +46,6 @@ function Input() {
   return (
     <div
       className={classnames("renaud-suggester-input-container", { focused })}
-      tabIndex="-1"
     >
       <input
         type="text"
@@ -70,7 +68,7 @@ function Input() {
         onBlur={function (e) {
           e.preventDefault();
           e.stopPropagation();
-          dispatch(onBlurSuggester());
+          // dispatch(onBlurSuggester());
         }}
         onKeyDown={handleKeyPressed}
       />

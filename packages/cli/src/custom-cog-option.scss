@@ -3,21 +3,33 @@
     &.active {
         background-color: goldenrod;
     }
+    &.selected {
+        background-color: paleturquoise;
+
+        &.active {
+             background-color: gold;             
+        }
+    }
     
     &:hover {
         cursor: pointer;
     }
 
     .custom-cog-option {
-        padding: 1px 0;        
+        padding: 1px 0;     
         
-        .com{
-            background-color: limegreen;
+        .com{ 
+            background-color: seagreen;
             color: snow;
             border-radius: 4px;
             padding: 1px 3px;
             font-size: 12px;
             font-family: monospace;
         }
+
+        .libelle{ 
+            padding-left: 2px;
+        }
+       
     }
 }

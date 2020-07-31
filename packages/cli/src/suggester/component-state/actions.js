@@ -34,9 +34,8 @@ export const onEnterInput = () => ({ type: ON_ENTER_INPUT });
  */
 
 export const ON_CLICK_OPTION = "renaud-suggester/onClickOption";
-export const onClickOption = (item) => ({
+export const onClickOption = () => ({
   type: ON_CLICK_OPTION,
-  payload: { item },
 });
 
 export const ON_MOUSE_ENTER_OPTION = "renaud-suggester/onMouseEnterOption";

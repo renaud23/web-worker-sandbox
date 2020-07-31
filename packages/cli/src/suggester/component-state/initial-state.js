@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   displayPanel: false,
   focused: false,
   activeIndex: -1,
+  selectedItem: undefined,
   displayActiveIndex: false,
   onSelect: () => null,
   displayOnRefresh: true,
