@@ -12,44 +12,71 @@ function getInPayload(action, ...attrs) {
 
 function reduceOnKeyDownInput(state) {
   const { suggestions, activeIndex } = state;
-
   return {
     ...state,
+    displayActiveIndex: true,
     activeIndex: Math.min(activeIndex + 1, suggestions.length - 1),
   };
 }
 
 function reduceOnKeyUpInput(state) {
   const { activeIndex } = state;
-  return { ...state, activeIndex: Math.max(activeIndex - 1, 0) };
+  return {
+    ...state,
+    displayActiveIndex: true,
+    activeIndex: Math.max(activeIndex - 1, 0),
+  };
 }
 
 function reduceOnBlurSuggester(state) {
-  return { ...state, displayPanel: false, focused: false };
+  return {
+    ...state,
+    displayActiveIndex: false,
+    displayPanel: false,
+    focused: false,
+  };
 }
 
 function reduceOnFocusedSuggester(state) {
-  return { ...state, displayPanel: true, focused: true };
+  return {
+    ...state,
+    displayActiveIndex: false,
+    displayPanel: true,
+    focused: true,
+  };
 }
 
 function reduceOnInputChange(state, action) {
-  const { payload } = action;
-  const { value } = payload;
+  const { value } = getInPayload(action, "value");
 
-  return { ...state, inputValue: value };
+  return {
+    ...state,
+    displayActiveIndex: false,
+    inputValue: value,
+    activeIndex: -1,
+  };
 }
 
 function reduceOnRefreshSuggestions(state, action) {
-  const { payload } = action;
-  const { suggestions } = payload;
+  const { suggestions } = getInPayload(action, "suggestions");
   const displayPanel = suggestions.length > 0;
 
-  return { ...state, suggestions, displayPanel, activeIndex: -1 };
+  return {
+    ...state,
+    displayActiveIndex: false,
+    suggestions,
+    displayPanel,
+    activeIndex: -1,
+  };
 }
 
 function reduceOnMouseEnterOption(state, action) {
   const { index } = getInPayload(action, "index");
-  return { ...state, activeIndex: index };
+  return { ...state, displayActiveIndex: true, activeIndex: index };
+}
+
+function reduceOnMouseEnterInputPanel(state) {
+  return { ...state, displayActiveIndex: false, activeIndex: -1 };
 }
 
 function reducer(state, action) {
@@ -69,6 +96,8 @@ function reducer(state, action) {
       return reduceOnKeyDownInput(state);
     case ACTIONS.ON_MOUSE_ENTER_OPTION:
       return reduceOnMouseEnterOption(state, action);
+    case ACTIONS.ON_MOUSE_ENTER_INPUT_LAYER:
+      return reduceOnMouseEnterInputPanel(state);
     default:
       return state;
   }

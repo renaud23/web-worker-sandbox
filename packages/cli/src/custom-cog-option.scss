@@ -3,6 +3,10 @@
     &.active {
         background-color: goldenrod;
     }
+    
+    &:hover {
+        cursor: pointer;
+    }
 
     .custom-cog-option {
         padding: 1px 0;        

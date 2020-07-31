@@ -1,5 +1,6 @@
 import React from "react";
 import classnames from "classnames";
+import InputLayer from "./suggester-input-layer";
 import {
   useSuggesterState,
   onInputChange,
@@ -19,16 +20,18 @@ const KEY_BIND = {
 
 function Input() {
   const [state, dispatch] = useSuggesterState();
-  const { value, focused } = state;
+  const { focused, value } = state;
 
   function handleKeyPressed(e) {
     e.stopPropagation();
     const { key } = e;
     switch (key) {
       case KEY_BIND.arrowUp:
+        e.preventDefault();
         dispatch(onArrowUpInput());
         break;
       case KEY_BIND.arrowDown:
+        e.preventDefault();
         dispatch(onArrowDownInput());
         break;
       default:
@@ -65,6 +68,7 @@ function Input() {
         }}
         onKeyDown={handleKeyPressed}
       />
+      <InputLayer />
     </div>
   );
 }

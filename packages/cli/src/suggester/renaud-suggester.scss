@@ -1,6 +1,7 @@
 .renaud-suggester-container{
     position: relative; 
     width: fit-content;
+
     .renaud-suggester{
         .renaud-suggester-panel-container{
             position: absolute;
@@ -25,11 +26,26 @@
 
 
         .renaud-suggester-input-container{
+            position: relative;
+            border: solid black 1px;
+            border-radius: 2px;
+
             &.focused{
                 outline: solid red 1px;
             }
+
             .renaud-suggester-input{
                 outline: none;
+                border: none;
+            }
+
+            .renaud-suggester-input-layer{
+                position: absolute;
+                left: 1;
+                top: 0;
+                background-color: lightblue;
+                width: calc(100% - 2px);
+                padding-left: 2px;
             }
         }
 

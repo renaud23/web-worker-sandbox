@@ -21,7 +21,7 @@ async function refreshSuggestion(prefix, searching) {
   }
 }
 
-function Suggester({ store, optionComponent }) {
+function Suggester({ store, optionComponent, displayPath }) {
   const containerEl = useRef();
   const [state, dispatch] = useReducer(reducer, initialState);
   const { inputValue } = state;
@@ -57,7 +57,9 @@ function Suggester({ store, optionComponent }) {
   );
 
   return (
-    <SuggesterStateContext.Provider value={{ state, dispatch }}>
+    <SuggesterStateContext.Provider
+      value={{ state: { ...state, displayPath }, dispatch }}
+    >
       <SuggesterContainer ref={containerEl}>
         <Input />
         <Panel optionComponent={optionComponent} />
@@ -68,6 +70,7 @@ function Suggester({ store, optionComponent }) {
 
 Suggester.defaultProps = {
   optionComponent: OptionDefault,
+  displayPath: "id",
 };
 
 export default Suggester;

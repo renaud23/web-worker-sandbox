@@ -41,3 +41,12 @@ export const onMouseEnterOption = (index) => ({
   type: ON_MOUSE_ENTER_OPTION,
   payload: { index },
 });
+
+/**
+ *
+ */
+export const ON_MOUSE_ENTER_INPUT_LAYER =
+  "renaud-suggester/onMouseEnterInputLayer";
+export const onMouseEnterInputLayer = () => ({
+  type: ON_MOUSE_ENTER_INPUT_LAYER,
+});

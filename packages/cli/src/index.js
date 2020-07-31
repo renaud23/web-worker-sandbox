@@ -32,7 +32,11 @@ function App() {
   return (
     <div className="application">
       <DataToolbar store={store} idbName={IDB_NAME} fields={fields} />
-      <Suggester store={store} optionComponent={CustomCOGOption} />
+      <Suggester
+        store={store}
+        optionComponent={CustomCOGOption}
+        displayPath="libelle"
+      />
       <p>
         Contrary to popular belief, Lorem Ipsum is not simply random text. It
         has roots in a piece of classical Latin literature from 45 BC, making it
