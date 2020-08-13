@@ -32,4 +32,17 @@
         }
        
     }
+
+
+    .custom-naf-option {
+        .code{ background-color: red;
+            color: snow;
+            border-radius: 4px;
+            padding: 1px 3px;
+            font-size: 12px;
+            font-family: monospace;}
+        .libelle{
+            padding-left: 2px;
+        }
+    }
 }
