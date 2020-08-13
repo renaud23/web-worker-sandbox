@@ -50,6 +50,7 @@ function reduceOnBlurInput(state) {
   return {
     ...state,
     focused: false,
+    cssZIndex: 0,
   };
 }
 
@@ -59,6 +60,7 @@ function reduceOnFocusedSuggester(state) {
     displayActiveIndex: false,
     displayPanel: true,
     focused: true,
+    cssZIndex: 1,
   };
 }
 

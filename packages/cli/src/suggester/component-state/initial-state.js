@@ -1,4 +1,5 @@
 const INITIAL_STATE = {
+  cssZIndex: 0,
   inputValue: "",
   suggestions: [],
   displayPanel: false,
