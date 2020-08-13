@@ -3,16 +3,6 @@ import { BULK_INSERT_MESSAGES, clearStore } from "store-index";
 import createWorker from "../worker/bulk-insert";
 import "./bulk-insert-progress.scss";
 
-async function fetchData() {
-  const communes = await fetch("/communes-2019.json").then((data) =>
-    data.json()
-  );
-  return communes.map(function (commune, i) {
-    const { com } = commune;
-    return { ...commune, id: `COM-${i}-${com}` };
-  });
-}
-
 async function loadTask(data, idbName, fields, process = () => null) {
   if (idbName) {
     const bulkTask = createWorker(process);
@@ -20,7 +10,12 @@ async function loadTask(data, idbName, fields, process = () => null) {
   }
 }
 
-function BulkTaskProgress({ idbName, data = [], fields = [] }) {
+function BulkTaskProgress({
+  idbName,
+  data = [],
+  fields = [],
+  finished = () => null,
+}) {
   const ref = useRef();
   const [statusWidth, setStatusWidth] = useState(0);
   const [nbToLoad] = useState(data.length);
@@ -48,6 +43,7 @@ function BulkTaskProgress({ idbName, data = [], fields = [] }) {
           }
           case BULK_INSERT_MESSAGES.finished:
             setComplete(true);
+            finished();
             break;
           case BULK_INSERT_MESSAGES.error:
           default:
@@ -55,7 +51,7 @@ function BulkTaskProgress({ idbName, data = [], fields = [] }) {
       }
       loadTask(data, idbName, fields, callback);
     },
-    [data, idbName, fields]
+    [data, idbName, fields, finished]
   );
 
   const percent = nbTreated / (nbToLoad + 1);
@@ -69,42 +65,89 @@ function BulkTaskProgress({ idbName, data = [], fields = [] }) {
   );
 }
 
-function DataToolbar({ store, idbName, fields }) {
+function DataToolbar({ idbStores = [] }) {
   const [load, setLoad] = useState(false);
-  const [communes, setCommunes] = useState([]);
+  const [store, setStore] = useState(undefined);
+  const [data, setData] = useState(undefined);
 
-  const handleLoad = useCallback(function (e) {
-    e.stopPropagation();
-    async function loadCommunes() {
-      const communes = await fetchData();
-      setCommunes(communes);
-      setLoad(true);
-    }
-    loadCommunes();
-  }, []);
+  useEffect(
+    function () {
+      if (idbStores.length) {
+        setStore(idbStores[0]);
+      } else {
+        setStore(undefined);
+      }
+    },
+    [idbStores]
+  );
+
+  const handleChangeStore = useCallback(
+    function (e) {
+      e.stopPropagation();
+      const index = e.target.value;
+      setStore(idbStores[index]);
+      setLoad(false);
+    },
+    [idbStores]
+  );
+
+  const handleLoad = useCallback(
+    async function (e) {
+      e.stopPropagation();
+      const { fetch } = store;
+      async function loadData() {
+        setData(await fetch());
+        setLoad(true);
+      }
+      loadData();
+    },
+    [store]
+  );
 
   const handleClear = useCallback(
     function (e) {
       e.stopPropagation();
       async function clear() {
-        await clearStore(store);
+        const { store: str } = store;
+        await clearStore(str);
         setLoad(false);
-        setCommunes([]);
+        setData(undefined);
       }
       clear();
     },
     [store]
   );
+  if (!idbStores.length) {
+    return null;
+  }
+  const options = idbStores.map(function (o, i) {
+    const { name } = o;
+    return (
+      <option value={i} key={name}>
+        {name}
+      </option>
+    );
+  });
   return (
     <div className="data-toolbar">
+      <select disabled={load} onChange={handleChangeStore}>
+        {options}
+      </select>
       <button className="button" onClick={handleLoad} disabled={load}>
         Load
       </button>
       <button className="button" onClick={handleClear}>
         Clear
       </button>
-      {load ? (
-        <BulkTaskProgress idbName={idbName} data={communes} fields={fields} />
+      {load && store && data ? (
+        <BulkTaskProgress
+          idbName={store.name}
+          data={data}
+          fields={store.fields}
+          finished={function () {
+            setLoad(false);
+          }}
+        />
       ) : null}
     </div>
   );

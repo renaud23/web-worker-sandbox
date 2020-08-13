@@ -5,9 +5,34 @@ import { createStore } from "store-index";
 import { Suggester } from "./suggester";
 import "./custom-cog-option.scss";
 
-const IDB_NAME = "TEST/COG";
-const fields = [{ name: "libelle" }, { name: "com" }, { name: "nccenr" }];
+async function fetchCommunes() {
+  const communes = await fetch("/communes-2019.json").then((data) =>
+    data.json()
+  );
+  return communes.map(function (commune, i) {
+    const { com } = commune;
+    return { ...commune, id: `COM-${i}-${com}` };
+  });
+}
 
+async function fetchNaf() {
+  const postes = await fetch("/naf.json").then((data) => data.json());
+  return postes.map(function (naf, i) {
+    const { code } = naf;
+    return { ...naf, id: `NAF-${i}-${code}` };
+  });
+}
+
+const COG_IDB_NAME = "TEST/COG";
+const COG_FIELDS = [{ name: "libelle" }, { name: "com" }, { name: "nccenr" }];
+
+const NAF_IDB_NAME = "TEST/NAF";
+const NAF_FIELDS = [{ name: "code" }, { name: "libelle" }, { name: "poste" }];
+
+/**
+ *
+ * @param {*} param0
+ */
 function CustomCOGOption({ suggestion }) {
   const { com, libelle } = suggestion;
   return (
@@ -18,20 +43,55 @@ function CustomCOGOption({ suggestion }) {
   );
 }
 
+function CustomNafOption({ suggestion }) {
+  const { code, libelle } = suggestion;
+  return (
+    <div className="custom-naf-option">
+      <span className="code">{code}</span>
+      <span className="libelle">{libelle}</span>
+    </div>
+  );
+}
+
 function App() {
-  const [store, setStore] = useState(undefined);
+  const [cogStore, setCogStore] = useState(undefined);
+  const [nafStore, setNafStore] = useState(undefined);
+  const [idbStores, setIdbStores] = useState(undefined);
 
   useEffect(function () {
     async function init() {
-      setStore(await createStore(IDB_NAME, 1, fields));
+      setCogStore(await createStore(COG_IDB_NAME, 1, COG_FIELDS));
+      setNafStore(await createStore(NAF_IDB_NAME, 1, NAF_FIELDS));
     }
 
     init();
   }, []);
 
+  useEffect(
+    function () {
+      if (cogStore && nafStore) {
+        setIdbStores([
+          {
+            name: COG_IDB_NAME,
+            fields: COG_FIELDS,
+            fetch: fetchCommunes,
+            store: cogStore,
+          },
+          {
+            name: NAF_IDB_NAME,
+            fields: NAF_FIELDS,
+            fetch: fetchNaf,
+            store: nafStore,
+          },
+        ]);
+      }
+    },
+    [cogStore, nafStore]
+  );
+
   return (
     <div className="application">
-      <DataToolbar store={store} idbName={IDB_NAME} fields={fields} />
+      <DataToolbar idbStores={idbStores} />
       <p>
         Contrary to popular belief, Lorem Ipsum is not simply random text. It
         has roots in a piece of classical Latin literature from 45 BC, making it
@@ -47,7 +107,7 @@ function App() {
         1.10.32.
       </p>
       <Suggester
-        store={store}
+        store={cogStore}
         optionComponent={CustomCOGOption}
         displayPath="libelle"
         onSelect={function (item) {
@@ -68,6 +128,14 @@ function App() {
         Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section
         1.10.32.
       </p>
+      <Suggester
+        store={nafStore}
+        displayPath="libelle"
+        optionComponent={CustomNafOption}
+        onSelect={function (item) {
+          console.log("onSelect naf", item);
+        }}
+      />
     </div>
   );
 }
