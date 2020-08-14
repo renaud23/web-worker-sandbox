@@ -3,7 +3,7 @@ import SuggesterContainer from "./suggester-container";
 import Input from "./suggester-input";
 import Panel from "./suggester-panel";
 import OptionDefault from "./suggester-option-default";
-import { searchByPrefix } from "store-index";
+import { searchByPrefix, searchByTokens, SEARCH_TYPES } from "store-index";
 import {
   reducer,
   initialState,
@@ -13,7 +13,7 @@ import {
 } from "./component-state";
 import "./renaud-suggester.scss";
 
-async function refreshSuggestion(prefix, searching, how = 15) {
+async function refreshSuggestion(prefix, searching, how) {
   if (prefix.trim().length) {
     return await searching(prefix, how);
   } else {
@@ -21,12 +21,17 @@ async function refreshSuggestion(prefix, searching, how = 15) {
   }
 }
 
+function getSearch(type) {
+  return type === SEARCH_TYPES.tokens ? searchByTokens : searchByPrefix;
+}
+
 function Suggester({
   store,
   optionComponent,
   displayPath,
   onSelect,
-  how = 15,
+  how,
+  searchType,
 }) {
   const containerEl = useRef();
   const [state, dispatch] = useReducer(reducer, {
@@ -35,8 +40,7 @@ function Suggester({
     displayPath,
   });
   const { inputValue } = state;
-
-  const searching = useCallback(searchByPrefix(store), [store]);
+  const searching = useCallback(getSearch(searchType)(store), [store]);
 
   useEffect(
     function () {
@@ -80,6 +84,8 @@ function Suggester({
 Suggester.defaultProps = {
   optionComponent: OptionDefault,
   displayPath: "id",
+  how: 15,
+  searchType: SEARCH_TYPES.prefix,
 };
 
 export default Suggester;

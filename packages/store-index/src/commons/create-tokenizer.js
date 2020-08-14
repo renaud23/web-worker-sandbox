@@ -1,4 +1,5 @@
 import tokenizer from "string-tokenizer";
+import removeAccents from "remove-accents";
 import prepareStringIndexation from "./prepare-string-indexation";
 
 function defaultTokenizeIt(string) {
@@ -10,7 +11,7 @@ function createTokenizer(fields = []) {
     const { name, rules = [] } = f;
     if (rules.length) {
       const tokenRules = rules.reduce(function (a, pattern, index) {
-        return { ...a, [`pattern-${name}-${index}`]: pattern };
+        return { ...a, [`pattern${name}${index}`]: pattern };
       }, {});
       return {
         ...a,
@@ -21,15 +22,16 @@ function createTokenizer(fields = []) {
             [k, values]
           ) {
             if (k.startsWith("pattern")) {
+              if (typeof values === "string") {
+                return [...a, values];
+              }
               return [...a, ...values];
             }
             return a;
           },
           []);
 
-          return severals.map(function (token) {
-            return prepareStringIndexation(token);
-          });
+          return severals;
         },
       };
     }
@@ -41,7 +43,7 @@ function createTokenizer(fields = []) {
     const tokenizeIt = FIELDS_TOKENIZER_MAP[name];
     const value = `${entity[name]}`;
 
-    return tokenizeIt(value);
+    return tokenizeIt(removeAccents(`${value}`).toLowerCase());
   };
 }
 

@@ -2,12 +2,7 @@ import React from "react";
 import OptionContainer from "./suggester-option-container";
 import { useSuggesterState } from "./component-state";
 
-function PanelContent({
-  suggestions,
-  optionComponent: Component,
-  display,
-  activeIndex,
-}) {
+function PanelContent({ suggestions, optionComponent: Component, display }) {
   if (display) {
     return (
       <ul className="renaud-suggester-panel">
@@ -27,7 +22,7 @@ function PanelContent({
 
 function Panel({ optionComponent }) {
   const [state] = useSuggesterState();
-  const { suggestions, displayPanel, activeIndex } = state;
+  const { suggestions, displayPanel } = state;
   const length = suggestions.length;
   if (!length) {
     return null;
@@ -39,7 +34,6 @@ function Panel({ optionComponent }) {
         suggestions={suggestions}
         optionComponent={optionComponent}
         display={displayPanel}
-        activeIndex={activeIndex}
       />
     </div>
   );

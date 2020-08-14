@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import DataToolbar from "./data-toolbar";
-import { createStore } from "store-index";
+import { createStore, SEARCH_TYPES } from "store-index";
 import { Suggester } from "./suggester";
 import "./custom-cog-option.scss";
 
@@ -137,6 +137,7 @@ function App() {
         onSelect={function (item) {
           console.log("onSelect naf", item);
         }}
+        searchType={SEARCH_TYPES.prefix}
       />
     </div>
   );

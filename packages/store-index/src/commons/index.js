@@ -1,5 +1,5 @@
 export { default as openStorage } from "./open-storage";
-export { default as CONSTANTE } from "./constantes";
+export { default as CONSTANTE, SEARCH_TYPES } from "./constantes";
 export { default as prepareStringIndexation } from "./prepare-string-indexation";
 export {
   default as idbBulkInsert,
