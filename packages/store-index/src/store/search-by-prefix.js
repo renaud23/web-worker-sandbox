@@ -1,5 +1,23 @@
 import { CONSTANTE, prepareStringIndexation } from "../commons";
 
+export function filter(results, how) {
+  const [stack] = Object.values(
+    results.reduce(
+      function ([stack, n], o) {
+        const { id } = o;
+        if (id in stack || n >= how) {
+          return [stack, n];
+        }
+
+        return [{ ...stack, [id]: o }, n + 1];
+      },
+      [{}, length]
+    )
+  );
+
+  return Object.values(stack);
+}
+
 function search(store) {
   if (!store) {
     return () => null;
@@ -18,14 +36,7 @@ function search(store) {
       const range = IDBKeyRange.bound(pp, `${pp}${CONSTANTE.MAX_STRING}`);
       index.getAll(range).onsuccess = function (req) {
         if (how) {
-          resolve(
-            req.target.result.reduce(function (a, e, i) {
-              if (i < how) {
-                return [...a, e];
-              }
-              return a;
-            }, [])
-          );
+          resolve(filter(req.target.result, how));
         }
         resolve(req.target.result);
       };

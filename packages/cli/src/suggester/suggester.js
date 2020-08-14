@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef, useMemo } from "react";
 import SuggesterContainer from "./suggester-container";
 import Input from "./suggester-input";
 import Panel from "./suggester-panel";
@@ -32,6 +32,7 @@ function Suggester({
   onSelect,
   how,
   searchType,
+  fields,
 }) {
   const containerEl = useRef();
   const [state, dispatch] = useReducer(reducer, {
@@ -40,7 +41,12 @@ function Suggester({
     displayPath,
   });
   const { inputValue } = state;
-  const searching = useCallback(getSearch(searchType)(store), [store]);
+
+  const searching = useMemo(() => getSearch(searchType)(store, fields), [
+    fields,
+    store,
+    searchType,
+  ]);
 
   useEffect(
     function () {

@@ -6,6 +6,18 @@ function defaultTokenizeIt(string) {
   return [prepareStringIndexation(string)];
 }
 
+export function tokensToArray(tokenized) {
+  return Object.entries(tokenized).reduce(function (a, [k, values]) {
+    if (k.startsWith("pattern")) {
+      if (typeof values === "string") {
+        return [...a, values];
+      }
+      return [...a, ...values];
+    }
+    return a;
+  }, []);
+}
+
 function createTokenizer(fields = []) {
   const FIELDS_TOKENIZER_MAP = fields.reduce(function (a, f) {
     const { name, rules = [] } = f;
@@ -17,21 +29,7 @@ function createTokenizer(fields = []) {
         ...a,
         [name]: function (string) {
           const what = tokenizer().input(string).tokens(tokenRules).resolve();
-          const severals = Object.entries(what).reduce(function (
-            a,
-            [k, values]
-          ) {
-            if (k.startsWith("pattern")) {
-              if (typeof values === "string") {
-                return [...a, values];
-              }
-              return [...a, ...values];
-            }
-            return a;
-          },
-          []);
-
-          return severals;
+          return tokensToArray(what);
         },
       };
     }

@@ -5,4 +5,4 @@ export {
   default as idbBulkInsert,
   BULK_INSERT_MESSAGES,
 } from "./idb-bulk-insert";
-export { default as createTokenizer } from "./create-tokenizer";
+export { default as createTokenizer, tokensToArray } from "./create-tokenizer";

@@ -137,7 +137,8 @@ function App() {
         onSelect={function (item) {
           console.log("onSelect naf", item);
         }}
-        searchType={SEARCH_TYPES.prefix}
+        searchType={SEARCH_TYPES.tokens}
+        fields={NAF_FIELDS}
       />
     </div>
   );
