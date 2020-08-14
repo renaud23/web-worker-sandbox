@@ -6,8 +6,8 @@ function create(callback = () => null) {
     callback(e.data);
   });
 
-  return function (idbName, fields, entities) {
-    worker.postMessage({ idbName, entities, fields });
+  return function (idbName, fields, entities, tokenize = false) {
+    worker.postMessage({ idbName, entities, fields, tokenize });
   };
 }
 

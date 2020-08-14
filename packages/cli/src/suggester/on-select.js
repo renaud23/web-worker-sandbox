@@ -1,6 +1,6 @@
 function onSelect(state) {
   const { onSelect, suggestions, activeIndex } = state;
-  if (activeIndex) {
+  if (activeIndex >= 0) {
     onSelect(suggestions[activeIndex]);
   }
 }

@@ -3,10 +3,10 @@ import { BULK_INSERT_MESSAGES, clearStore } from "store-index";
 import createWorker from "../worker/bulk-insert";
 import "./bulk-insert-progress.scss";
 
-async function loadTask(data, idbName, fields, process = () => null) {
+async function loadTask(data, idbName, fields, tokenize, process = () => null) {
   if (idbName) {
     const bulkTask = createWorker(process);
-    bulkTask(idbName, fields, data);
+    bulkTask(idbName, fields, data, tokenize);
   }
 }
 
@@ -15,6 +15,7 @@ function BulkTaskProgress({
   data = [],
   fields = [],
   finished = () => null,
+  tokenize = false,
 }) {
   const ref = useRef();
   const [statusWidth, setStatusWidth] = useState(0);
@@ -49,9 +50,9 @@ function BulkTaskProgress({
           default:
         }
       }
-      loadTask(data, idbName, fields, callback);
+      loadTask(data, idbName, fields, tokenize, callback);
     },
-    [data, idbName, fields, finished]
+    [data, idbName, fields, finished, tokenize]
   );
 
   const percent = nbTreated / (nbToLoad + 1);
@@ -144,6 +145,7 @@ function DataToolbar({ idbStores = [] }) {
           idbName={store.name}
           data={data}
           fields={store.fields}
+          tokenize={store.tokenize}
           finished={function () {
             setLoad(false);
           }}

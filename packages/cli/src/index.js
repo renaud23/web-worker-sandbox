@@ -27,7 +27,7 @@ const COG_IDB_NAME = "TEST/COG";
 const COG_FIELDS = [{ name: "libelle" }, { name: "com" }, { name: "nccenr" }];
 
 const NAF_IDB_NAME = "TEST/NAF";
-const NAF_FIELDS = [{ name: "code" }, { name: "libelle" }, { name: "poste" }];
+const NAF_FIELDS = [{ name: "libelle", rules: [/[\w]+/] }, { name: "code" }];
 
 /**
  *
@@ -76,12 +76,14 @@ function App() {
             fields: COG_FIELDS,
             fetch: fetchCommunes,
             store: cogStore,
+            tokenize: false,
           },
           {
             name: NAF_IDB_NAME,
             fields: NAF_FIELDS,
             fetch: fetchNaf,
             store: nafStore,
+            tokenize: true,
           },
         ]);
       }

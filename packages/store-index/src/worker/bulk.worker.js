@@ -4,13 +4,18 @@ import {
   BULK_INSERT_MESSAGES,
   CONSTANTE,
   prepareStringIndexation,
+  createTokenizer,
 } from "../commons";
 
-function createPrepareEntity(fields = []) {
+function createPrepareEntity(fields = [], tokenize = false) {
+  const tokenizeIt = createTokenizer(fields);
   return function (entity) {
     const searching = fields.reduce(function (a, field) {
       const { name } = field;
       if (name in entity) {
+        if (tokenize) {
+          return [...a, ...tokenizeIt(field, entity)];
+        }
         return [...a, prepareStringIndexation(`${entity[name]}`)];
       }
       return a;
@@ -21,9 +26,9 @@ function createPrepareEntity(fields = []) {
 
 self.onmessage = (e) => {
   const { data } = e;
-  const { idbName, entities, fields } = data;
+  const { idbName, entities, fields, tokenize } = data;
 
-  const prepareEntity = createPrepareEntity(fields);
+  const prepareEntity = createPrepareEntity(fields, tokenize);
   const preparedEntities = entities.map(function (e) {
     return prepareEntity(e);
   });
