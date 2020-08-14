@@ -13,15 +13,21 @@ import {
 } from "./component-state";
 import "./renaud-suggester.scss";
 
-async function refreshSuggestion(prefix, searching) {
+async function refreshSuggestion(prefix, searching, how = 15) {
   if (prefix.trim().length) {
-    return await searching(prefix, 15);
+    return await searching(prefix, how);
   } else {
     return [];
   }
 }
 
-function Suggester({ store, optionComponent, displayPath, onSelect }) {
+function Suggester({
+  store,
+  optionComponent,
+  displayPath,
+  onSelect,
+  how = 15,
+}) {
   const containerEl = useRef();
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
@@ -35,13 +41,13 @@ function Suggester({ store, optionComponent, displayPath, onSelect }) {
   useEffect(
     function () {
       async function doRefresh() {
-        const suggestions = await refreshSuggestion(inputValue, searching);
+        const suggestions = await refreshSuggestion(inputValue, searching, how);
         dispatch(onRefreshSuggestions(suggestions));
       }
 
       doRefresh();
     },
-    [inputValue, searching]
+    [inputValue, searching, how]
   );
 
   useEffect(
