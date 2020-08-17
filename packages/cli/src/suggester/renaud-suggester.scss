@@ -6,10 +6,11 @@
 $searchBarBackgroundColor: ivory;
 $searchBarColor: black;
 
-
 .renaud-suggester-container{
     position: relative; 
-    width: fit-content;
+   
+    &.focused {}
+    &.unfocused {}
 
     .renaud-suggester{
         .renaud-suggester-panel-container{
@@ -17,6 +18,15 @@ $searchBarColor: black;
             display: inline-block;
             width: max-content; 
             margin-top: 2px;
+
+
+            &.display{
+                z-index: 1;
+            }
+            &.hide{
+                z-index: 0;
+                
+            }
 
             .renaud-suggester-panel{
                 margin: 0;
@@ -32,14 +42,14 @@ $searchBarColor: black;
             }
         }
 
-
         .renaud-suggester-input-container{            
             position: relative;
             background-color: $searchBarBackgroundColor;
             border-radius: 15px;   
-            padding:0 15px 0 15px; 
+            padding:0 25px 0 15px; 
+         
             border: solid lightblue  2px;
-            
+            width: calc(100% - 42px);
             height: 30px;
 
             &.focused{
@@ -51,8 +61,9 @@ $searchBarColor: black;
                 border: none;
                 height: calc(100% - 2px);
                 background-color: $searchBarBackgroundColor;
-                color: $searchBarColor;
-
+                color: $searchBarColor; 
+                width: 100%;
+              
 
                 @include fontPolicy();
             }
@@ -61,7 +72,7 @@ $searchBarColor: black;
                 position: absolute;                 
                 top: 0;               
                 background-color: $searchBarBackgroundColor;
-                width: calc(100% - 32px);
+                width: calc(100% - 42px);
                 padding-left: 2px;
                 padding-top: 8px;
                 height: calc(100% - 8px);

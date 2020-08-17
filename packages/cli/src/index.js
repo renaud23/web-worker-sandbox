@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import DataToolbar from "./data-toolbar";
 import { createStore, SEARCH_TYPES } from "store-index";
 import { Suggester } from "./suggester";
+import classnames from "classnames";
 import "./custom-cog-option.scss";
 
 async function fetchCommunes() {
@@ -44,10 +45,12 @@ function CustomCOGOption({ suggestion }) {
 }
 
 function CustomNafOption({ suggestion }) {
-  const { code, libelle } = suggestion;
+  const { code, libelle, poste } = suggestion;
   return (
     <div className="custom-naf-option">
-      <span className="code">{code}</span>
+      <span className={classnames("code", poste)} title={poste}>
+        {code}
+      </span>
       <span className="libelle">{libelle}</span>
     </div>
   );
@@ -108,14 +111,17 @@ function App() {
         Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section
         1.10.32.
       </p>
-      <Suggester
-        store={cogStore}
-        optionComponent={CustomCOGOption}
-        displayPath="libelle"
-        onSelect={function (item) {
-          console.log("onSelect", item);
-        }}
-      />
+
+      <div style={{ width: "280px" }}>
+        <Suggester
+          store={cogStore}
+          optionComponent={CustomCOGOption}
+          displayPath="libelle"
+          onSelect={function (item) {
+            console.log("onSelect", item);
+          }}
+        />
+      </div>
       <p>
         Contrary to popular belief, Lorem Ipsum is not simply random text. It
         has roots in a piece of classical Latin literature from 45 BC, making it
@@ -130,16 +136,18 @@ function App() {
         Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section
         1.10.32.
       </p>
-      <Suggester
-        store={nafStore}
-        displayPath="libelle"
-        optionComponent={CustomNafOption}
-        onSelect={function (item) {
-          console.log("onSelect naf", item);
-        }}
-        searchType={SEARCH_TYPES.tokens}
-        fields={NAF_FIELDS}
-      />
+      <div style={{ width: "380px" }}>
+        <Suggester
+          store={nafStore}
+          displayPath="libelle"
+          optionComponent={CustomNafOption}
+          onSelect={function (item) {
+            console.log("onSelect naf", item);
+          }}
+          searchType={SEARCH_TYPES.tokens}
+          fields={NAF_FIELDS}
+        />
+      </div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   cssZIndex: 0,
+  suggesterFocused: false,
   inputValue: "",
   suggestions: [],
   displayPanel: false,

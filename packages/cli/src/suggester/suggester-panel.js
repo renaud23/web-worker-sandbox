@@ -1,11 +1,12 @@
 import React from "react";
 import OptionContainer from "./suggester-option-container";
 import { useSuggesterState } from "./component-state";
+import classnames from "classnames";
 
 function PanelContent({ suggestions, optionComponent: Component, display }) {
   if (display) {
     return (
-      <ul className="renaud-suggester-panel">
+      <ul className={classnames("renaud-suggester-panel")}>
         {suggestions.map(function (s, i) {
           const { id } = s;
           return (
@@ -29,7 +30,12 @@ function Panel({ optionComponent }) {
   }
 
   return (
-    <div className="renaud-suggester-panel-container transition">
+    <div
+      className={classnames("renaud-suggester-panel-container", {
+        display: displayPanel,
+        hide: !displayPanel,
+      })}
+    >
       <PanelContent
         suggestions={suggestions}
         optionComponent={optionComponent}
