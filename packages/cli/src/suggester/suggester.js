@@ -33,12 +33,14 @@ function Suggester({
   how,
   searchType,
   fields,
+  placeHolder,
 }) {
   const containerEl = useRef();
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     onSelect,
     displayPath,
+    placeHolder,
   });
   const { inputValue } = state;
 
@@ -92,6 +94,7 @@ Suggester.defaultProps = {
   displayPath: "id",
   how: 15,
   searchType: SEARCH_TYPES.prefix,
+  placeHolder: "Search...",
 };
 
 export default Suggester;

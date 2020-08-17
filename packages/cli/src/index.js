@@ -115,6 +115,7 @@ function App() {
       <div style={{ width: "280px" }}>
         <Suggester
           store={cogStore}
+          placeHolder="Rechercher dans le COG."
           optionComponent={CustomCOGOption}
           displayPath="libelle"
           onSelect={function (item) {
@@ -140,6 +141,7 @@ function App() {
         <Suggester
           store={nafStore}
           displayPath="libelle"
+          placeHolder="Recherche dans la naf."
           optionComponent={CustomNafOption}
           onSelect={function (item) {
             console.log("onSelect naf", item);

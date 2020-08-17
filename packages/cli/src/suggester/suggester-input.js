@@ -25,7 +25,7 @@ const KEY_BIND = {
 
 function Input() {
   const [state, dispatch] = useSuggesterState();
-  const { focused, inputValue } = state;
+  const { focused, inputValue, placeHolder } = state;
 
   function handleKeyPressed(e) {
     e.stopPropagation();
@@ -60,6 +60,7 @@ function Input() {
         autoCorrect="off"
         autoCapitalize="off"
         spellCheck="false"
+        placeholder={placeHolder}
         onChange={function (e) {
           e.preventDefault();
           e.stopPropagation();

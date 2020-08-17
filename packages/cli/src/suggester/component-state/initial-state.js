@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  cssZIndex: 0,
+  placeHolder: "Search...",
   suggesterFocused: false,
   inputValue: "",
   suggestions: [],
