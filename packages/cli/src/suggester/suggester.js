@@ -78,7 +78,6 @@ function Suggester({
     },
     [containerEl]
   );
-
   return (
     <SuggesterStateContext.Provider value={{ state, dispatch }}>
       <SuggesterContainer ref={containerEl}>
