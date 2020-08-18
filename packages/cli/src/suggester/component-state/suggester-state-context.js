@@ -5,4 +5,6 @@ const SuggesterStateContext = React.createContext({
   dispatch: () => null,
 });
 
+SuggesterStateContext.displayName = "SuggesterContext";
+
 export default SuggesterStateContext;
