@@ -65,7 +65,7 @@ function resolve(propositions, how) {
 
 function create(store, fields = []) {
   if (!store) {
-    return () => null;
+    return undefined;
   }
   const queryParser = createTokenizer(fields);
   const searching = searchByPrefix(store);
@@ -79,15 +79,6 @@ function create(store, fields = []) {
     );
     return resolve(suggestions, how);
   };
-
-  // if (!store) {
-  //   return () => null;
-  // }
-  // const { db } = store;
-
-  // return function search(query, how) {
-  //   return [];
-  // };
 }
 
 export default create;

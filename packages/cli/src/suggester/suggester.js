@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef, useMemo } from "react";
+import React, { useEffect, useReducer, useRef, useMemo, useState } from "react";
 import SuggesterContainer from "./suggester-container";
 import Input from "./suggester-input";
 import Panel from "./suggester-panel";
@@ -36,11 +36,16 @@ function Suggester({
   placeHolder,
 }) {
   const containerEl = useRef();
+
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     onSelect,
     displayPath,
     placeHolder,
+  });
+  const [context, setContext] = useState({
+    dispatch,
+    state,
   });
   const { inputValue } = state;
 
@@ -53,15 +58,26 @@ function Suggester({
   useEffect(
     function () {
       async function doRefresh() {
-        const suggestions = await refreshSuggestion(inputValue, searching, how);
-        dispatch(onRefreshSuggestions(suggestions));
+        if (typeof searching === "function") {
+          const suggestions = await refreshSuggestion(
+            inputValue,
+            searching,
+            how
+          );
+          dispatch(onRefreshSuggestions(suggestions));
+        }
       }
 
       doRefresh();
     },
     [inputValue, searching, how]
   );
-
+  useEffect(
+    function () {
+      setContext({ dispatch, state });
+    },
+    [dispatch, state]
+  );
   useEffect(
     function () {
       function handleClickBody(e) {
@@ -79,7 +95,7 @@ function Suggester({
     [containerEl]
   );
   return (
-    <SuggesterStateContext.Provider value={{ state, dispatch }}>
+    <SuggesterStateContext.Provider value={context}>
       <SuggesterContainer ref={containerEl}>
         <Input />
         <Panel optionComponent={optionComponent} />

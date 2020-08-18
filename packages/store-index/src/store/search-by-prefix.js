@@ -20,7 +20,7 @@ export function filter(results, how) {
 
 function search(store) {
   if (!store) {
-    return () => null;
+    return undefined;
   }
   const { db } = store;
   return async function (prefix, how) {
