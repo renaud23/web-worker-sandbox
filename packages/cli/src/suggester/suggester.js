@@ -12,7 +12,7 @@ import {
   onBlurSuggester,
 } from "./component-state";
 import "./renaud-suggester.scss";
-
+//
 async function refreshSuggestion(prefix, searching, how) {
   if (prefix.trim().length) {
     return await searching(prefix, how);
