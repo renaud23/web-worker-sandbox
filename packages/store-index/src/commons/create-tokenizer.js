@@ -3,6 +3,8 @@ import removeAccents from "remove-accents";
 import prepareStringIndexation from "./prepare-string-indexation";
 import { getStemmer } from "../commons";
 
+const DEFAULT_STOP_WORDS = ["de", "en", "le", "pour", "avec", "aux"];
+
 function defaultTokenizeIt(string) {
   return [prepareStringIndexation(string)];
 }
@@ -32,9 +34,21 @@ function filterStemmer(tokens, language) {
   });
 }
 
+function filterStopWords(tokens, stops = DEFAULT_STOP_WORDS) {
+  const mapSW = stops.reduce(function (a, w) {
+    return { ...a, [w]: undefined };
+  }, {});
+  return tokens.reduce(function (a, t) {
+    if (t in mapSW) {
+      return a;
+    }
+    return [...a, t];
+  }, []);
+}
+
 function createTokenizer(fields = []) {
   const FIELDS_TOKENIZER_MAP = fields.reduce(function (a, f) {
-    const { name, rules = [], min, language = "French" } = f;
+    const { name, rules = [], min, language = "French", stopWords } = f;
     if (rules.length) {
       const tokenRules = rules.reduce(function (a, pattern, index) {
         return { ...a, [`pattern${name}${index}`]: pattern };
@@ -43,9 +57,9 @@ function createTokenizer(fields = []) {
         ...a,
         [name]: function (string) {
           const what = tokenizer().input(string).tokens(tokenRules).resolve();
-          const words = filterStemmer(
-            filterLength(tokensToArray(what), min),
-            language
+          const words = filterStopWords(
+            filterStemmer(filterLength(tokensToArray(what), min), language),
+            stopWords
           );
 
           return words;

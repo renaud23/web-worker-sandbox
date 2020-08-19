@@ -4,6 +4,7 @@ import DataToolbar from "./data-toolbar";
 import { createStore, SEARCH_TYPES } from "store-index";
 import { Suggester } from "./suggester";
 import classnames from "classnames";
+import stopWords from "./stop-words";
 import "./custom-cog-option.scss";
 
 async function fetchCommunes() {
@@ -29,7 +30,7 @@ const COG_FIELDS = [{ name: "libelle" }, { name: "com" }, { name: "nccenr" }];
 
 const NAF_IDB_NAME = "TEST/NAF";
 const NAF_FIELDS = [
-  { name: "libelle", rules: [/[\w]+/], language: "French", min: 3 },
+  { name: "libelle", rules: [/[\w]+/], language: "French", min: 3, stopWords },
   { name: "code" },
 ];
 
