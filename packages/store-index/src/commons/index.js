@@ -6,3 +6,4 @@ export {
   BULK_INSERT_MESSAGES,
 } from "./idb-bulk-insert";
 export { default as createTokenizer, tokensToArray } from "./create-tokenizer";
+export { default as getStemmer } from "./get-stemmer";

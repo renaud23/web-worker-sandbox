@@ -2,6 +2,7 @@ import searchByPrefix from "./search-by-prefix";
 import tokenizer from "string-tokenizer";
 import removeAccents from "remove-accents";
 import { tokensToArray } from "../commons";
+import { getStemmer } from "../commons";
 
 function mergeToPatterns(p, field) {
   const { rules, name } = field;
@@ -13,7 +14,12 @@ function mergeToPatterns(p, field) {
   );
 }
 
-function createTokenizer(fields) {
+function stemAll(tokens, stemmer) {
+  return tokens.map((token) => stemmer(token));
+}
+
+function createTokenizer(fields, language) {
+  const stemmer = getStemmer(language);
   const patterns = fields.reduce(function (a, f, i) {
     const { rules } = f;
     if (rules) {
@@ -27,7 +33,7 @@ function createTokenizer(fields) {
       .input(removeAccents(query).toLocaleLowerCase())
       .tokens(patterns)
       .resolve();
-    return tokensToArray(all);
+    return stemAll(tokensToArray(all), stemmer);
   };
 }
 
@@ -63,11 +69,11 @@ function resolve(propositions, how) {
   }, []);
 }
 
-function create(store, fields = []) {
+function create(store, fields = [], language = "French") {
   if (!store) {
     return undefined;
   }
-  const queryParser = createTokenizer(fields);
+  const queryParser = createTokenizer(fields, language);
   const searching = searchByPrefix(store);
 
   return async function (query, how) {

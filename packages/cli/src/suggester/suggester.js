@@ -34,6 +34,7 @@ function Suggester({
   searchType,
   fields,
   placeHolder,
+  language,
 }) {
   const containerEl = useRef();
 
@@ -49,11 +50,10 @@ function Suggester({
   });
   const { inputValue } = state;
 
-  const searching = useMemo(() => getSearch(searchType)(store, fields), [
-    fields,
-    store,
-    searchType,
-  ]);
+  const searching = useMemo(
+    () => getSearch(searchType)(store, fields, language),
+    [fields, store, searchType]
+  );
 
   useEffect(
     function () {
@@ -110,6 +110,7 @@ Suggester.defaultProps = {
   how: 15,
   searchType: SEARCH_TYPES.prefix,
   placeHolder: "Search...",
+  language: "French",
 };
 
 export default Suggester;

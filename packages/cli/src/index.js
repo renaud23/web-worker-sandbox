@@ -28,7 +28,10 @@ const COG_IDB_NAME = "TEST/COG";
 const COG_FIELDS = [{ name: "libelle" }, { name: "com" }, { name: "nccenr" }];
 
 const NAF_IDB_NAME = "TEST/NAF";
-const NAF_FIELDS = [{ name: "libelle", rules: [/[\w]+/] }, { name: "code" }];
+const NAF_FIELDS = [
+  { name: "libelle", rules: [/[\w]+/], language: "French", min: 3 },
+  { name: "code" },
+];
 
 /**
  *

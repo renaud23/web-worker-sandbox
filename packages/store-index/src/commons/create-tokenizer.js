@@ -1,6 +1,7 @@
 import tokenizer from "string-tokenizer";
 import removeAccents from "remove-accents";
 import prepareStringIndexation from "./prepare-string-indexation";
+import { getStemmer } from "../commons";
 
 function defaultTokenizeIt(string) {
   return [prepareStringIndexation(string)];
@@ -18,9 +19,22 @@ export function tokensToArray(tokenized) {
   }, []);
 }
 
+function filterLength(tokens, min = 2) {
+  return tokens.filter(function (token) {
+    return token.length >= min;
+  });
+}
+
+function filterStemmer(tokens, language) {
+  const stemmer = getStemmer(language);
+  return tokens.map(function (token) {
+    return stemmer(token);
+  });
+}
+
 function createTokenizer(fields = []) {
   const FIELDS_TOKENIZER_MAP = fields.reduce(function (a, f) {
-    const { name, rules = [] } = f;
+    const { name, rules = [], min, language = "French" } = f;
     if (rules.length) {
       const tokenRules = rules.reduce(function (a, pattern, index) {
         return { ...a, [`pattern${name}${index}`]: pattern };
@@ -29,7 +43,10 @@ function createTokenizer(fields = []) {
         ...a,
         [name]: function (string) {
           const what = tokenizer().input(string).tokens(tokenRules).resolve();
-          return tokensToArray(what);
+          return filterStemmer(
+            filterLength(tokensToArray(what), min),
+            language
+          );
         },
       };
     }
