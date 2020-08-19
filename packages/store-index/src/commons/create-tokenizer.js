@@ -43,10 +43,12 @@ function createTokenizer(fields = []) {
         ...a,
         [name]: function (string) {
           const what = tokenizer().input(string).tokens(tokenRules).resolve();
-          return filterStemmer(
+          const words = filterStemmer(
             filterLength(tokensToArray(what), min),
             language
           );
+
+          return words;
         },
       };
     }

@@ -12,7 +12,7 @@ import {
   onBlurSuggester,
 } from "./component-state";
 import "./renaud-suggester.scss";
-//
+
 async function refreshSuggestion(prefix, searching, how) {
   if (prefix.trim().length) {
     return await searching(prefix, how);
@@ -52,7 +52,7 @@ function Suggester({
 
   const searching = useMemo(
     () => getSearch(searchType)(store, fields, language),
-    [fields, store, searchType]
+    [fields, store, searchType, language]
   );
 
   useEffect(

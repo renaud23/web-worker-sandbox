@@ -23,7 +23,8 @@
   },
   "dependencies": {
     "remove-accents": "^0.4.2",
+    "snowball": "^0.3.1",
     "string-hash": "^1.1.3",
-    "string-tokenizer": "^0.0.8"
+    "string-similarity": "^4.0.2"
   }
 }
