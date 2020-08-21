@@ -1,9 +1,11 @@
 .bulk-insert-progress{
-    position: relative;
-    display:  block;
+    position: absolute;
+    left: 0;
+    display:  inline-block;
     width: 100px;
     height: 20px;
     border: solid black 1px;
+    background-color: ghostwhite;
     padding: 1px 1px;
     .progress{
         position: absolute;

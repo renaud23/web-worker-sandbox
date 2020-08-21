@@ -1,8 +1,28 @@
 import { CONSTANTE } from "../commons";
+function getIDB() {
+  return (
+    self.indexedDB ||
+    self.mozIndexedDB ||
+    self.webkitIndexedDB ||
+    self.msIndexedDB
+  );
+}
+
+const IDB_REF = getIDB();
+// window.IDBTransaction =
+//   window.IDBTransaction ||
+//   window.webkitIDBTransaction ||
+//   window.msIDBTransaction;
+// window.IDBKeyRange =
+//   window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
 function openStorage(name, version = 1) {
+  // const indexedDB = getIDB();
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(name, version);
+    if (!IDB_REF) {
+      reject("indexedDb not supported !");
+    }
+    const request = IDB_REF.open(name, version);
     let db;
     let doIt = true;
 

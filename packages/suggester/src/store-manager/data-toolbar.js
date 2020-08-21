@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { BULK_INSERT_MESSAGES, clearStore } from "store-index";
 import createWorker from "../worker/bulk-insert";
-import "./bulk-insert-progress.scss";
 
 async function loadTask(data, idbName, fields, tokenize, process = () => null) {
   if (idbName) {
@@ -10,7 +9,7 @@ async function loadTask(data, idbName, fields, tokenize, process = () => null) {
   }
 }
 
-function BulkTaskProgress({
+export function BulkTaskProgress({
   idbName,
   data = [],
   fields = [],

@@ -14,8 +14,10 @@ export {
   clearStore,
   searchByPrefix,
   searchByTokens,
+  storeStatus,
+  STORE_STATUS,
 } from "./store";
-export { BULK_INSERT_MESSAGES, SEARCH_TYPES } from "./commons";
+export { BULK_INSERT_MESSAGES, SEARCH_TYPES, openStorage } from "./commons";
 export { default as BulkInsertWorker } from "./worker/bulk.worker";
 
 export default {
