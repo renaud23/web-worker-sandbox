@@ -8,7 +8,14 @@ function Separator() {
   return <span className="store-manager-separator" />;
 }
 
-function ActionLoad({ status, fetch, fields, onStartLoad, onEndLoad }) {
+function ActionLoad({
+  status,
+  fetch,
+  fields,
+  onStartLoad,
+  onEndLoad,
+  tokenize,
+}) {
   const [load, setLoad] = useState(false);
   const [data, setData] = useState(undefined);
 
@@ -21,7 +28,7 @@ function ActionLoad({ status, fetch, fields, onStartLoad, onEndLoad }) {
         setLoad(true);
       })();
     },
-    [fetch]
+    [fetch, onStartLoad]
   );
 
   const { name, status: state, count } = status;
@@ -39,7 +46,7 @@ function ActionLoad({ status, fetch, fields, onStartLoad, onEndLoad }) {
           idbName={name}
           data={data}
           fields={fields}
-          tokenize={false}
+          tokenize={tokenize}
           finished={function () {
             setLoad(false);
             onEndLoad();
@@ -51,13 +58,16 @@ function ActionLoad({ status, fetch, fields, onStartLoad, onEndLoad }) {
 }
 
 function ActionClear({ name, version, disabled = false, refresh }) {
-  const handleClear = useCallback(function (e) {
-    e.stopPropagation();
-    (async function () {
-      await clearStore(await createStore(name, version));
-      refresh();
-    })();
-  }, []);
+  const handleClear = useCallback(
+    function (e) {
+      e.stopPropagation();
+      (async function () {
+        await clearStore(await createStore(name, version));
+        refresh();
+      })();
+    },
+    [name, refresh, version]
+  );
   return (
     <Button onClick={handleClear} disabled={disabled}>
       Clear
@@ -65,7 +75,7 @@ function ActionClear({ name, version, disabled = false, refresh }) {
   );
 }
 
-function StoreManagerActions({ store, status, fields, fetch, refresh }) {
+function StoreManagerActions({ status, fields, fetch, refresh, tokenize }) {
   const [load, setLoad] = useState(false);
   const onStartLoad = function () {
     setLoad(true);
@@ -85,7 +95,7 @@ function StoreManagerActions({ store, status, fields, fetch, refresh }) {
     <StoreManagerTitle title="ACTIONS">
       <div className="store-manager-actions-container">
         <ActionLoad
-          className="store-manager-actions"
+          tokenize={tokenize}
           status={status}
           fetch={fetch}
           fields={fields}

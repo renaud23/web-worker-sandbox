@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import stopWords from "../stop-words";
-import { createStore } from "store-index";
-import { BulkTaskProgress, StoreManager } from "../store-manager";
+import { Suggester } from "../suggester";
+import { StoreManager } from "../store-manager";
+import { createStore, SEARCH_TYPES } from "store-index";
+import classnames from "classnames";
+import "../custom-option.scss";
 
 async function fetchCommunes() {
   const communes = await fetch("/communes-2019.json").then((data) =>
@@ -30,78 +33,103 @@ const NAF_FIELDS = [
   { name: "code" },
 ];
 
-export function COG() {
-  const [cogStore, setCogStore] = useState(undefined);
-  const [load, setLoad] = useState(false);
-  const [data, setData] = useState(undefined);
+function CustomCOGOption({ suggestion }) {
+  const { com, libelle } = suggestion;
+  return (
+    <div className="custom-cog-option">
+      <span className="com">{com}</span>
+      <span className="libelle">{libelle}</span>
+    </div>
+  );
+}
 
+function CustomNafOption({ suggestion }) {
+  const { code, libelle, poste } = suggestion;
+  return (
+    <div className="custom-naf-option">
+      <span className={classnames("code", poste)} title={poste}>
+        {code}
+      </span>
+      <span className="libelle">{libelle}</span>
+    </div>
+  );
+}
+
+export function COG() {
+  const [store, setStore] = useState(undefined);
   useEffect(function () {
     async function init() {
-      setCogStore(await createStore(COG_IDB_NAME, 1, COG_FIELDS));
+      setStore(await createStore(COG_IDB_NAME, 1, COG_FIELDS));
     }
 
     init();
   }, []);
-
-  const handleLoad = useCallback(async function (e) {
-    e.stopPropagation();
-    const communes = await fetchCommunes();
-    async function loadData() {
-      setData(communes);
-      setLoad(true);
-    }
-    loadData();
-  }, []);
-
-  //   const handleClear = useCallback(
-  //     function (e) {
-  //       e.stopPropagation();
-  //       async function clear() {
-  //         const { store: str } = store;
-  //         await clearStore(str);
-  //         setLoad(false);
-  //         setData(undefined);
-  //       }
-  //       clear();
-  //     },
-  //     [store]
-  //   );
-
-  if (!cogStore) {
+  if (!store) {
     return null;
   }
   return (
     <>
+      <div style={{ width: "280px" }}>
+        <Suggester
+          store={store}
+          placeHolder="Rechercher dans le COG."
+          optionComponent={CustomCOGOption}
+          displayPath="libelle"
+          onSelect={function (item) {
+            console.log("onSelect", item);
+          }}
+        />
+      </div>
       <StoreManager
         name={COG_IDB_NAME}
         version={1}
         fields={COG_FIELDS}
         fetch={fetchCommunes}
       />
-      {/* <button className="button" onClick={handleLoad} disabled={load}>
-        Load
-      </button>
-      <button className="button" onClick={() => null}>
-        Clear
-      </button>
-      {load && cogStore && data ? (
-        <BulkTaskProgress
-          idbName={COG_IDB_NAME}
-          data={data}
-          fields={COG_FIELDS}
-          tokenize={false}
-          finished={function () {
-            console.log("Done !");
-            setLoad(false);
+    </>
+  );
+}
+
+export function NAF() {
+  const [store, setStore] = useState(undefined);
+  useEffect(function () {
+    async function init() {
+      setStore(await createStore(NAF_IDB_NAME, 1, NAF_FIELDS));
+    }
+
+    init();
+  }, []);
+  if (!store) {
+    return null;
+  }
+  return (
+    <>
+      <div style={{ width: "380px" }}>
+        <Suggester
+          store={store}
+          displayPath="libelle"
+          placeHolder="Recherche dans la naf."
+          optionComponent={CustomNafOption}
+          onSelect={function (item) {
+            console.log("onSelect naf", item);
           }}
+          searchType={SEARCH_TYPES.tokens}
+          fields={NAF_FIELDS}
         />
-      ) : null} */}
+      </div>
+      <StoreManager
+        name={NAF_IDB_NAME}
+        tokenize={true}
+        version={1}
+        fields={NAF_FIELDS}
+        fetch={fetchNaf}
+      />
     </>
   );
 }
 
 export default {
   title: "Store/create",
-  component: () => null,
+  component: StoreManager,
   argTypes: {},
 };

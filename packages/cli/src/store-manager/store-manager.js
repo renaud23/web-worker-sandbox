@@ -4,7 +4,7 @@ import StoreStatus from "./store-manager-status";
 import StoreManagerActions from "./store-manager-actions";
 import "./store-manager.scss";
 
-function StoreManager({ name, version, fields, fetch }) {
+function StoreManager({ name, version, fields, fetch, tokenize = false }) {
   const [store, setStore] = useState(undefined);
   const [status, setStatus] = useState(undefined);
 
@@ -45,6 +45,7 @@ function StoreManager({ name, version, fields, fetch }) {
     <div className="store-manager">
       <StoreStatus status={status} />
       <StoreManagerActions
+        tokenize={tokenize}
         store={store}
         fields={fields}
         status={status}

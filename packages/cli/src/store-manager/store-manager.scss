@@ -1,13 +1,3 @@
-@mixin storeStatus($color) {
-  position: absolute;
-  top: 0;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-  background-color: $color;
-}
-
 .store-manager {
   .store-manager-title {
     display: inline-block;
@@ -26,22 +16,21 @@
       font-family: "Lucida Console", Monaco, monospace;
       .label {
         margin-right: 5px;
-        color: black;
+        color: goldenrod;
+        border: solid goldenrod 1px;
+        border-radius: 2px;
+        padding: 2px 5px;
+        margin-bottom: 2px;
+        display: inline-block;
+        min-width: 70px;
       }
       .value {
-        color: goldenrod;
+        color: black;
       }
-    }
-    .store-status-ready {
-      @include storeStatus(yellowGreen);
-    }
-    .store-status-failure {
-      @include storeStatus(tomato);
     }
   }
 
-
-  .store-manager-separator{
+  .store-manager-separator {
     display: inline-block;
     width: 12px;
   }
@@ -62,25 +51,26 @@
       background-color: orangered;
       color: snow;
     }
-    &:active,&:focus {
+    &:active,
+    &:focus {
       background-color: snow;
       color: goldenrod;
       border: goldenrod solid 2px;
       outline: none;
     }
-    &:focus{
+    &:focus {
       box-shadow: 0 0 0 1pt blue;
     }
 
-    &.disabled{
+    &.disabled {
       border: darkslategrey solid 2px;
       background-color: lightslategrey;
       color: snow;
       &:hover,
-      &:active,&:focus{
+      &:active,
+      &:focus {
         box-shadow: none;
       }
     }
-    
   }
 }
