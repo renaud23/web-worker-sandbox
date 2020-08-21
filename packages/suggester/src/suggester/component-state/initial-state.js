@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   displayActiveIndex: false,
   onSelect: () => null,
   displayOnRefresh: true,
+  cursorPos: 0,
 };
 
 export default INITIAL_STATE;

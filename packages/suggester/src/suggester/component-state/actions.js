@@ -15,9 +15,9 @@ export const onFocusedSuggester = () => ({ type: ON_FOCUSED_SUGGESTER });
  */
 
 export const ON_INPUT_CHANGE = "renaud-suggester/onInputChange";
-export const onInputChange = (value) => ({
+export const onInputChange = (value, cursorPos) => ({
   type: ON_INPUT_CHANGE,
-  payload: { value },
+  payload: { value, cursorPos },
 });
 
 export const ON_ARROW_UP_INPUT = "renaud-suggester/onArrowUpInput";

@@ -63,7 +63,7 @@ function reduceOnFocusedSuggester(state) {
 }
 
 function reduceOnInputChange(state, action) {
-  const { value } = getInPayload(action, "value");
+  const { value, cursorPos } = getInPayload(action, "value", "cursorPos");
 
   return {
     ...state,
@@ -71,6 +71,7 @@ function reduceOnInputChange(state, action) {
     inputValue: value,
     activeIndex: -1,
     displayOnRefresh: true,
+    cursorPos,
   };
 }
 

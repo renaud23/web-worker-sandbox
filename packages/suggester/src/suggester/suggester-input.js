@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import classnames from "classnames";
 import InputLayer from "./suggester-input-layer";
 import {
@@ -25,8 +25,8 @@ const KEY_BIND = {
 
 function Input() {
   const [state, dispatch] = useSuggesterState();
-  const { focused, inputValue, placeHolder } = state;
-
+  const { focused, inputValue, placeHolder, cursorPos } = state;
+  const inputEl = useRef();
   function handleKeyPressed(e) {
     e.stopPropagation();
     const { key } = e;
@@ -50,12 +50,28 @@ function Input() {
     }
   }
 
+  useEffect(
+    function () {
+      if (inputEl.current) {
+        const where = inputEl.current.selectionStart;
+        if (cursorPos !== where) {
+          if (typeof inputEl.current.setSelectionRange === "function") {
+            inputEl.current.setSelectionRange(cursorPos, cursorPos);
+          }
+          // TODO for oldest nav
+        }
+      }
+    },
+    [inputEl, cursorPos]
+  );
+
   return (
     <div
       className={classnames("renaud-suggester-input-container", { focused })}
     >
       <input
         type="text"
+        ref={inputEl}
         autoComplete="list"
         autoCorrect="off"
         autoCapitalize="off"
@@ -64,7 +80,7 @@ function Input() {
         onChange={function (e) {
           e.preventDefault();
           e.stopPropagation();
-          dispatch(onInputChange(e.target.value));
+          dispatch(onInputChange(e.target.value, e.target.selectionStart));
         }}
         value={inputValue}
         className="renaud-suggester-input"
