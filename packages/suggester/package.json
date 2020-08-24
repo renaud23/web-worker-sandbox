@@ -1,7 +1,12 @@
 {
-  "name": "cli",
-  "version": "0.1.0",
-  "private": true,
+  "name": "idb-suggester",
+  "version": "0.1.2",
+  "main": "dist/index.js",
+  "files": [
+    "build",
+    "src"
+  ],
+  "description": "Try to deploy a first package.",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -14,7 +19,7 @@
   },
   "scripts": {
     "start": "yarn react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "yarn react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
