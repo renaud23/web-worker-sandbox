@@ -1,9 +1,9 @@
 {
   "name": "idb-suggester",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "dist/index.js",
   "files": [
-    "build"
+    "src"
   ],
   "description": "Try to deploy a first package.",
   "dependencies": {
@@ -38,6 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "peerDependencies": {
+    "react": "^16.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
