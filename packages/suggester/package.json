@@ -1,10 +1,9 @@
 {
   "name": "idb-suggester",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/index.js",
   "files": [
-    "build",
-    "src"
+    "build"
   ],
   "description": "Try to deploy a first package.",
   "dependencies": {
@@ -18,8 +17,8 @@
     "store-index": "1.0.0"
   },
   "scripts": {
-    "start": "yarn react-app-rewired start",
-    "build": "yarn react-app-rewired build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
