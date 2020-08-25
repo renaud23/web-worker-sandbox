@@ -1,8 +1,8 @@
 {
   "mode": "production",
   "name": "idb-suggester",
-  "version": "0.1.8",
-  "main": "src/index.js",
+  "version": "0.1.9",
+  "main": "./lib/index.js",
   "description": "Try to deploy a first package.",
   "scripts": {
     "react-app-start": "react-app-rewired start",
@@ -59,6 +59,7 @@
     "react-is": "^16.13.1",
     "sass-loader": "^10.0.0",
     "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.12",
     "worker-loader": "^2.0.0"
   }
 }
