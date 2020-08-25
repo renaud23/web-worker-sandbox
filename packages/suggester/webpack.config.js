@@ -1,11 +1,11 @@
 const path = require("path");
 
 module.exports = {
-  mode: "production",
+  mode: "development",
   entry: "./src/index.js",
   output: {
-    path: path.resolve("build"),
-    filename: "idb-suggester.js",
+    path: path.resolve("lib"),
+    filename: "index.js",
     libraryTarget: "commonjs2",
   },
   module: {
