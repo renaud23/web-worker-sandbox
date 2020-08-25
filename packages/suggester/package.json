@@ -1,26 +1,15 @@
 {
+  "mode": "production",
   "name": "idb-suggester",
-  "version": "0.1.6",
-  "main": "dist/index.js",
-  "files": [
-    "src"
-  ],
+  "version": "0.1.7",
+  "main": "src/index.js",
   "description": "Try to deploy a first package.",
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "classnames": "^2.2.6",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.4.0",
-    "store-index": "1.0.0"
-  },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject",
+    "react-app-start": "react-app-rewired start",
+    "react-app-build": "react-app-rewired build",
+    "react-app-test": "react-app-rewired test",
+    "react-app-eject": "react-scripts eject",
+    "build": "webpack",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
@@ -42,12 +31,21 @@
   "peerDependencies": {
     "react": "^16.12.0"
   },
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "classnames": "^2.2.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.4.0",
+    "store-index": "1.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.11.4",
-    "@babel/plugin-proposal-class-properties": "^7.7.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.7.4",
-    "@babel/plugin-transform-modules-commonjs": "^7.9.0",
-    "@babel/plugin-transform-react-jsx": "^7.9.0",
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
     "@storybook/addon-actions": "^6.0.16",
     "@storybook/addon-essentials": "^6.0.16",
     "@storybook/addon-links": "^6.0.16",
@@ -58,6 +56,7 @@
     "node-sass": "^4.14.1",
     "react-app-rewired": "^2.1.5",
     "react-is": "^16.13.1",
+    "sass-loader": "^10.0.0",
     "webpack": "^4.41.5",
     "worker-loader": "^2.0.0"
   }

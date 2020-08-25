@@ -1,14 +1,19 @@
 {
+  "name": "@renaud/idb-suggester",
   "private": true,
-  "name": "web-worker-sandbox",
+  "version": "0.1.0",
   "devDependencies": {},
   "workspaces": {
     "packages": [
       "packages/*"
     ],
     "nohoist": [
+      "**/react",
+      "**/react/**",
       "**/react-scripts",
-      "**/react-scripts/**"
+      "**/react-scripts/**",
+      "**/@storybook/",
+      "**/@storybook/**"
     ]
   }
 }
