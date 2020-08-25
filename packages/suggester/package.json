@@ -1,7 +1,7 @@
 {
   "mode": "production",
   "name": "idb-suggester",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "src/index.js",
   "description": "Try to deploy a first package.",
   "scripts": {
@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-transform-react-jsx": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
