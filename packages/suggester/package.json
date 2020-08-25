@@ -1,7 +1,7 @@
 {
   "mode": "production",
   "name": "idb-suggester",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "main": "./lib/index.js",
   "description": "Try to deploy a first package.",
   "scripts": {
@@ -42,6 +42,7 @@
     "@babel/core": "^7.11.4",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
     "@babel/plugin-transform-react-jsx": "^7.10.4",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
@@ -52,6 +53,7 @@
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.0.16",
     "babel-loader": "^8.1.0",
+    "html-webpack-plugin": "^4.3.0",
     "node-sass": "^4.14.1",
     "react-app-rewired": "^2.1.5",
     "react-is": "^16.13.1",
