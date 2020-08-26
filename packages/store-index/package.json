@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
+  "files": [
+		"build",
+		"src"
+	],
   "scripts": {
     "build": "webpack",
     "build:watch": "webpack --watch",
     "test": "jest --watchAll",
     "preview": "workers-preview < dist/bundle.js"
   },
-  "author": "",
+  "author": "renaud.genevois",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.7.7",

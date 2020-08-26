@@ -1,6 +1,11 @@
 .store-manager {
+  background-color: honeydew;
+  width: 250px;
+  margin: 2px 2px;
+
   .store-manager-title {
     display: inline-block;
+    text-align: left;
     font-size: 18px;
     font-weight: bold;
     color: dodgerblue;
@@ -14,9 +19,11 @@
       padding-left: 12px;
       font-size: 12px;
       font-family: "Lucida Console", Monaco, monospace;
+      text-align: left;
       .label {
         margin-right: 5px;
         color: goldenrod;
+        background-color: ghostwhite;
         border: solid goldenrod 1px;
         border-radius: 2px;
         padding: 2px 5px;
@@ -27,6 +34,14 @@
       .value {
         color: black;
       }
+    }
+  }
+
+  .store-manager-actions-container{
+    height: 35px;
+    position: relative;
+    .bulk-insert-progress-container {
+
     }
   }
 
