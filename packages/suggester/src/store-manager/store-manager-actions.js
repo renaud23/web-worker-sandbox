@@ -1,21 +1,14 @@
-import React, { useState, useCallback } from "react";
-import StoreManagerTitle from "./store-manager-title";
-import { STORE_STATUS, clearStore, createStore } from "store-index";
-import Button from "./store-button";
-import { BulkTaskProgress } from "../store-manager";
+import React, { useState, useCallback } from 'react';
+import StoreManagerTitle from './store-manager-title';
+import { STORE_STATUS, clearStore, createStore } from 'store-index';
+import Button from './store-button';
+import { BulkTaskProgress } from '../store-manager';
 
 function Separator() {
   return <span className="store-manager-separator" />;
 }
 
-function ActionLoad({
-  status,
-  fetch,
-  fields,
-  onStartLoad,
-  onEndLoad,
-  tokenize,
-}) {
+function ActionLoad({ status, fetch, fields, onStartLoad, onEndLoad, tokenize }) {
   const [load, setLoad] = useState(false);
   const [data, setData] = useState(undefined);
 
@@ -40,20 +33,18 @@ function ActionLoad({
     );
   }
   return (
-    <>
-      <span style={{ position: "relative" }}>
-        <BulkTaskProgress
-          idbName={name}
-          data={data}
-          fields={fields}
-          tokenize={tokenize}
-          finished={function () {
-            setLoad(false);
-            onEndLoad();
-          }}
-        />
-      </span>
-    </>
+    <div className="bulk-insert-progress-container">
+      <BulkTaskProgress
+        idbName={name}
+        data={data}
+        fields={fields}
+        tokenize={tokenize}
+        finished={function () {
+          setLoad(false);
+          onEndLoad();
+        }}
+      />
+    </div>
   );
 }
 
@@ -105,12 +96,7 @@ function StoreManagerActions({ status, fields, fetch, refresh, tokenize }) {
         {load ? null : (
           <>
             <Separator />
-            <ActionClear
-              disabled={false}
-              name={name}
-              version={version}
-              refresh={refresh}
-            />
+            <ActionClear disabled={false} name={name} version={version} refresh={refresh} />
           </>
         )}
       </div>

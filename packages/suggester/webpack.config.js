@@ -1,13 +1,17 @@
 const path = require("path");
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   entry: "./src/index.js",
   output: {
     path: path.resolve("lib"),
     filename: "index.js",
     libraryTarget: "commonjs2",
   },
+  resolve: {
+    extensions: [".js"],
+  },
+
   module: {
     rules: [
       {
@@ -16,8 +20,11 @@ module.exports = {
         use: "babel-loader",
       },
       {
-        test: /\.worker\.js$/,
-        use: { loader: "worker-loader" },
+        test: /\.worker\.(c|m)?js$/i,
+        loader: 'worker-loader',
+        options: {
+          inline: true,
+        },
       },
       {
         test: /\.s[ac]ss$/i,
@@ -25,10 +32,6 @@ module.exports = {
       },
     ],
   },
-  resolve: {
-    alias: {
-      react: path.resolve(__dirname, "./node_modules/react"),
-      "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
-    },
-  },
+  target: "web",
+  externals: { react: "react" },
 };
